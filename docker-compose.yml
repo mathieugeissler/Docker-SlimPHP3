@@ -1,0 +1,36 @@
+app:
+    build: tools
+    tty: true
+    volumes:
+        - ./app:/var/www/app
+#        - ./logs/symfony:/var/www/symfony/app/logs
+
+db:
+    image: mysql
+    ports:
+        - 2345:3306
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: slimphp
+        MYSQL_USER: root
+        MYSQL_PASSWORD: root
+
+php:
+    build: php-fpm
+    volumes_from:
+        - app
+    links:
+        - db
+    ports:
+        - 9000:9000
+
+nginx:
+    build: nginx
+    ports:
+        - 80:80
+    links:
+        - php
+    volumes_from:
+        - app
+    volumes:
+        - ./logs/nginx/:/var/log/nginx
