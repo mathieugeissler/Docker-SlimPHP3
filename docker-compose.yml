@@ -3,7 +3,7 @@ app:
     tty: true
     volumes:
         - ./app:/var/www/app
-#        - ./logs/symfony:/var/www/symfony/app/logs
+        - ./logs/slimphp:/var/www/app/logs
 
 db:
     image: mysql
